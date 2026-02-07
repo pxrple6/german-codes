@@ -38,7 +38,7 @@
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
@@ -64,6 +64,22 @@
         }
 
         .btn.active {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .btn-all-mixed {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        .btn-all-mixed:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #dc4a5a 100%);
+        }
+
+        .btn-all-mixed.active {
             background: #ffd700;
             color: #333;
         }
@@ -220,6 +236,10 @@
     <div class="container">
         <h1>🎴 Complete German Prepositions</h1>
         
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button class="btn btn-all-mixed" onclick="setCategory('all_mixed')">🔀 ALL MIXED (120 Cards)</button>
+        </div>
+
         <div class="controls">
             <button class="btn btn-primary active" onclick="setCategory('an_dativ')">AN + Dativ</button>
             <button class="btn btn-primary" onclick="setCategory('an_akk')">AN + Akkusativ</button>
@@ -393,6 +413,22 @@
             ]
         };
 
+        // Create "all_mixed" category by combining all cards
+        flashcards.all_mixed = [
+            ...flashcards.an_dativ,
+            ...flashcards.an_akk,
+            ...flashcards.auf_dativ,
+            ...flashcards.auf_akk,
+            ...flashcards.in_dativ,
+            ...flashcards.in_akk,
+            ...flashcards.bei,
+            ...flashcards.zu,
+            ...flashcards.von,
+            ...flashcards.aus,
+            ...flashcards.nach,
+            ...flashcards.hause
+        ];
+
         let currentCategory = 'an_dativ';
         let currentIndex = 0;
         let isFlipped = false;
@@ -404,9 +440,12 @@
             isFlipped = false;
             currentCards = [...flashcards[category]];
             
-            document.querySelectorAll('.btn-primary').forEach(btn => {
+            // Remove active class from all buttons
+            document.querySelectorAll('.btn-primary, .btn-all-mixed').forEach(btn => {
                 btn.classList.remove('active');
             });
+            
+            // Add active class to clicked button
             event.target.classList.add('active');
             
             updateCard();
